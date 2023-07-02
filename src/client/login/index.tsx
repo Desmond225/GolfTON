@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -14,18 +14,39 @@ const LoginComponent = () => {
   const supabase = createClientComponentClient();
   const router = useRouter();
 
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session }} = await supabase.auth.getSession();
+      if (session) {
+        router.push('/dashboard');
+      }
+    };
+
+    checkSession();
+  }, []);
+
   const handleLogin = async (event) => {
     event.preventDefault();
     setLoading(true);
     setError(null);
-
-    await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
-
-    router.refresh();
-  };
+  
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+  
+      if (error) {
+        setError(error.message);
+      } else {
+        router.push('/dashboard');
+      }
+    } catch (error) {
+      setError('An unexpected error occurred.');
+    } finally {
+      setLoading(false);
+    }
+  };  
 
   return (
     <form onSubmit={handleLogin}>

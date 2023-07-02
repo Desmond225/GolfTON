@@ -1,3 +1,5 @@
+
+
 **Features**
 - Score tracking
 - Adding notes/communication between student and professional
@@ -6,13 +8,12 @@
 - Video analysis with import features
 - Swing tracking
 
+**To do**
+- Add a page with restricted access
+
 
 **Steps**
 - Design the Application Architecture: Design the architecture of your application. Consider factors like scalability, performance, and security. Think about how different components (like the frontend, backend, and database) will communicate with each other.
-
-- Choose Technologies and Tools: Decide on the technologies and tools you'll use. Since you're building a PWA, you're likely to use web technologies like HTML, CSS, JavaScript, and a frontend framework like React (Next.js). For the backend, you might consider using Node.js, and for the database, MongoDB or PostgreSQL.
-
-- Set Up Development Environment: Set up your development environment with the necessary tools and libraries. Initialize your Next.js application, set up a version control system (like Git), and create a GitHub repository if you haven’t already.
 
 - Design User Interface (UI): Design the UI for your app. Focus on user experience, ensuring that the interface is intuitive and user-friendly. Use tools like Adobe XD, Sketch, or Figma for creating mockups and designs.
 
