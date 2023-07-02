@@ -4,13 +4,15 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
-
+import { useRouter } from 'next/navigation';
 
 export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const router = useRouter();
 
   const handleRegister = async (event) => {
     event.preventDefault();
@@ -21,23 +23,26 @@ export default function Register() {
       email,
       password,
       options: {
-        emailRedirectTo: `${location.origin}/auth/callback`
-      }
+        emailRedirectTo: `${location.origin}/auth/callback`,
+      },
     });
 
     if (error) {
       alert(error.message);
+      setError(error.message);
       setLoading(false);
     } else {
       alert('Registration successful!');
-      setError(error.message);
       setLoading(false);
+
+      // Redirect to /dashboard after successful registration
+      router.push('/dashboard');
     }
   };
 
   return (
     <form onSubmit={handleRegister}>
-    <TextField
+      <TextField
         label="Email"
         type="email"
         value={email}
@@ -63,7 +68,7 @@ export default function Register() {
         fullWidth
         style={{ marginTop: 16 }}
       >
-        {loading ? <CircularProgress size={24} /> : 'Log In'}
+        {loading ? <CircularProgress size={24} /> : 'Sign Up'}
       </Button>
 
       {error && (
