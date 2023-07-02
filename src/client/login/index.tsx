@@ -3,35 +3,28 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
-import supabase from '../../lib/supabaseClient';
+import {createClientComponentClient} from '@supabase/auth-helpers-nextjs';
+import { useRouter } from 'next/navigation';
 
 const LoginComponent = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const supabase = createClientComponentClient();
+  const router = useRouter();
 
   const handleLogin = async (event) => {
     event.preventDefault();
     setLoading(true);
     setError(null);
 
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+    await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
 
-      if (error) {
-        throw error;
-      }
-      
-      console.log('User logged in: ', data.user);
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setLoading(false);
-    }
+    router.refresh();
   };
 
   return (
